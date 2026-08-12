@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С 15-летием, мама и папа!</title>
+    <style>
+        /* === ВСЕ СТИЛИ === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #3a0a0a, #1a0404);
+            font-family: 'Georgia', serif;
+            padding: 20px;
+            color: #e8d5b5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+        #login-screen {
+            max-width: 450px;
+            margin: 0 auto;
+            background: rgba(60, 15, 15, 0.8);
+            backdrop-filter: blur(16px);
+            border: 2px solid #b8860b;
+            border-radius: 50px;
+            padding: 50px 35px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+        }
+        #login-screen h1 {
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+        #login-screen p {
+            opacity: 0.7;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        #login-screen input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 60px;
+            border: 2px solid #b8860b55;
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            font-size: 1.2rem;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+            font-family: inherit;
+            margin-bottom: 20px;
+        }
+        #login-screen input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+        #login-screen .login-btn {
+            background: linear-gradient(145deg, #b8860b, #8b6508);
+            border: none;
+            color: #1a0404;
+            font-size: 1.3rem;
+            font-weight: bold;
+            padding: 14px 50px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 0 #5a3e05;
+            letter-spacing: 2px;
+            font-family: inherit;
+            width: 100%;
+        }
+        #login-screen .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 0 #5a3e05;
+        }
+        #login-screen .login-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 4px 0 #5a3e05;
+        }
+        #login-error {
+            color: #ff6b6b;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            display: none;
+        }
+        #main-content {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(60, 15, 15, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            border: 2px solid #b8860b;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+        .gold-text {
+            color: #d4af37;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+        h1 {
+            font-size: 3.2rem;
+            letter-spacing: 2px;
+        }
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.8;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .names {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #f5e6c8;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            margin: 15px 0;
+        }
+        .names span {
+            display: inline-block;
+            margin: 0 10px;
+            animation: glow 3s infinite alternate;
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #d4af37; }
+            100% { text-shadow: 0 0 30px #d4af37, 0 0 60px #b8860b; }
+        }
+        .divider {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 15px auto;
+        }
+        .message {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 0 10px;
+            white-space: pre-line;
+        }
+        .section {
+            background: rgba(60, 15, 15, 0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 30px;
+            border: 1px solid #b8860b55;
+            padding: 30px 25px;
+            margin-bottom: 30px;
+            transition: 0.3s;
+        }
+        .section:hover {
+            border-color: #d4af37;
+            box-shadow: 0 0 30px rgba(184, 134, 11, 0.15);
+        }
+        .section-title {
+            font-size: 1.8rem;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .section-desc {
+            text-align: center;
+            opacity: 0.7;
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .photo-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #b8860b33;
+            transition: 0.3s;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: 0.4s;
+        }
+        .photo-card:hover {
+            transform: scale(1.02);
+            border-color: #d4af37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+        .photo-card img:hover {
+            transform: scale(1.05);
+        }
+
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        #lightbox.active {
+            display: flex;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 85%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+            border: 2px solid #b8860b55;
+        }
+        #lightbox .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 3.5rem;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+            background: none;
+            border: none;
+            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+            font-family: Arial, sans-serif;
+            line-height: 1;
+        }
+        #lightbox .close-btn:hover {
+            transform: scale(1.2);
+            color: #d4af37;
+        }
+
+        .music-player {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 60px;
+            border: 1px solid #b8860b55;
+        }
+        .music-player audio {
+            width: 100%;
+            outline: none;
+        }
+        .surprise-btn {
+            display: block;
+            margin: 20px auto;
+            background: linear-gradient(145deg, #b8860b, #8b6508);
+            border: none;
+            color: #1a0404;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 14px 50px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 0 #5a3e05;
+            letter-spacing: 2px;
+            font-family: inherit;
+        }
+        .surprise-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 0 #5a3e05;
+        }
+        .surprise-btn:active:not(:disabled) {
+            transform: translateY(6px);
+            box-shadow: 0 4px 0 #5a3e05;
+        }
+        .surprise-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: confettiFall linear forwards;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(-20px) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg) scale(0.3); opacity: 0; }
+        }
+        .bg-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-heart {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.08;
+            animation: floatHeart 18s infinite alternate ease-in-out;
+            color: #d4af37;
+        }
+        @keyframes floatHeart {
+            0% { transform: translateY(0px) rotate(0deg) scale(0.8); }
+            100% { transform: translateY(-80px) rotate(20deg) scale(1.2); }
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .names { font-size: 2.2rem; }
+            .message { font-size: 1rem; }
+            .section-title { font-size: 1.4rem; }
+            .photo-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+            .section { padding: 20px 15px; }
+            #login-screen { padding: 30px 20px; }
+            #login-screen h1 { font-size: 2rem; }
+            #lightbox .close-btn { top: 20px; right: 25px; font-size: 2.8rem; }
+            .music-player audio { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-hearts" id="bgHearts"></div>
+    <div class="confetti-container" id="confettiContainer"></div>
+    <div id="login-screen">
+        <h1>🔐 Семейный альбом</h1>
+        <p>Введите пароль, чтобы увидеть поздравление</p>
+        <input type="password" id="passwordInput" placeholder="Введите пароль" autofocus>
+        <button class="login-btn" id="loginBtn">Войти</button>
+        <div id="login-error">❌ Неверный пароль. Попробуйте ещё раз.</div>
+    </div>
+    <div id="main-content" class="container">
+        <div class="header">
+            <h1 class="gold-text">С 15-летием!</h1>
+            <p class="subtitle">Нашей любимой семье</p>
+            <div class="names">
+                <span>Настя</span>
+                <span style="color:#d4af37;">❤️</span>
+                <span>Олег</span>
+            </div>
+            <div class="divider"></div>
+            <div class="message" id="greetingText">
+                Дорогие мама и папа!<br>
+                Поздравляю вас с 15-летием вашей любви!<br>
+                Вы — моя опора и пример для подражания.<br>
+                Спасибо за вашу заботу, тепло и мудрость.<br>
+                Пусть каждый ваш день будет наполнен радостью,<br>
+                а в доме всегда царят уют и счастье.<br>
+                Я вас очень люблю! ❤️
+            </div>
+            <div class="divider"></div>
+        </div>
+        <div id="photoSections"></div>
+        <div style="text-align:center; margin-top: 30px;">
+            <!-- Обложка (квадратная) с иконкой Цоя -->
+            <div style="width: 120px; height: 120px; margin: 0 auto 10px auto; border-radius: 16px; overflow: hidden; border: 2px solid #b8860b55; box-shadow: 0 0 30px rgba(184, 134, 11, 0.2);">
+                <img src="https://raw.githubusercontent.com/bzrktmr-eng/jvcvjdowcklcvmv/main/images/kino_zvezda1.jpg" alt="Обложка" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <!-- Название песни -->
+            <div style="color: #d4af37; font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);">
+                🎵 Виктор Цой — Звезда по имени Солнце
+            </div>
+
+            <!-- Плеер -->
+            <div class="music-player">
+                <audio controls autoplay loop id="bg-music">
+                    <source src="https://raw.githubusercontent.com/bzrktmr-eng/jvcvjdowcklcvmv/main/music/Viktor_Cojj_-_Zvezda_po_imeni_Solnce_b128f0d227.mp3" type="audio/mpeg">
+                    Ваш браузер не поддерживает аудио.
+                </audio>
+            </div>
+
+            <button class="surprise-btn" id="surpriseBtn">✨ Запустить салют ✨</button>
+        </div>
+    </div>
+
+
+    <div id="lightbox" onclick="closeLightbox()">
+        <button class="close-btn" onclick="closeLightbox()">✕</button>
+        <img id="lightbox-img" src="" alt="Увеличенное фото">
+    </div>
+
+    <script>
+
+        const imageLinks = {
+            section1: [
+                "https://raw.githubusercontent.com/bzrktmr-eng/jvcvjdowcklcvmv/main/images/foto1.jpg",
+                "https://raw.githubusercontent.com/bzrktmr-eng/jvcvjdowcklcvmv/main/images/foto4.jpg"
+            ],
+            section2: [
+                "https://raw.githubusercontent.com/bzrktmr-eng/jvcvjdowcklcvmv/main/images/foto3.jpg",
+                "https://raw.githubusercontent.com/bzrktmr-eng/jvcvjdowcklcvmv/main/images/foto2.jpg"
+            ],
+            section3: [
+                "https://raw.githubusercontent.com/bzrktmr-eng/jvcvjdowcklcvmv/main/images/foto5.jpg",
+                "https://raw.githubusercontent.com/bzrktmr-eng/jvcvjdowcklcvmv/main/images/foto6.jpg"
+            ],
+            section4: []
+        };
+
+
+        const CORRECT_PASSWORD = "Mom_and_Dad_are_the_best_in_the_world";
+
+
+        const loginScreen = document.getElementById('login-screen');
+        const mainContent = document.getElementById('main-content');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('login-error');
+
+        function tryLogin() {
+            const entered = passwordInput.value.trim();
+            if (entered === CORRECT_PASSWORD) {
+                loginScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                document.body.style.background = 'linear-gradient(145deg, #3a0a0a, #1a0404)';
+                loadPhotos();
+                // Запускаем музыку после входа
+                const audio = document.getElementById('bg-music');
+                if (audio) {
+                    audio.play().catch(function(e) {
+                        console.log('Автозапуск заблокирован, но музыка заиграет после клика');
+                    });
+                }
+            } else {
+                loginError.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                setTimeout(() => {
+                    loginError.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        loginBtn.addEventListener('click', tryLogin);
+        passwordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') tryLogin();
+        });
+
+
+        function loadPhotos() {
+            const sections = [
+                { id: 'section1', title: 'Тогда ❤️ Сейчас'},
+                { id: 'section2', title: '😍 Мои родители'},
+                { id: 'section3', title: '💞 Милые фоточки у родителей'},
+            ];
+
+            const container = document.getElementById('photoSections');
+            container.innerHTML = '';
+
+            sections.forEach(section => {
+                const links = imageLinks[section.id] || [];
+                if (links.length === 0) return;
+
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+
+                const title = document.createElement('div');
+                title.className = 'section-title';
+                title.textContent = section.title;
+                sectionDiv.appendChild(title);
+
+                const desc = document.createElement('div');
+                desc.className = 'section-desc';
+                desc.textContent = section.desc;
+                sectionDiv.appendChild(desc);
+
+                const grid = document.createElement('div');
+                grid.className = 'photo-grid';
+
+                links.forEach(link => {
+                    const card = document.createElement('div');
+                    card.className = 'photo-card';
+
+                    const img = document.createElement('img');
+                    img.src = link;
+                    img.alt = 'Фото';
+                    img.loading = 'lazy';
+
+                    card.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        openLightbox(link);
+                    });
+
+                    card.appendChild(img);
+                    grid.appendChild(card);
+                });
+
+                sectionDiv.appendChild(grid);
+                container.appendChild(sectionDiv);
+            });
+        }
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+     
+        (function createBgHearts() {
+            const container = document.getElementById('bgHearts');
+            const emojis = ['❤️', '💛', '✨', '🌸'];
+            for (let i = 0; i < 40; i++) {
+                const el = document.createElement('div');
+                el.className = 'bg-heart';
+                el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.top = Math.random() * 100 + '%';
+                el.style.fontSize = (1.2 + Math.random() * 2.2) + 'rem';
+                el.style.animationDelay = (Math.random() * 12) + 's';
+                el.style.animationDuration = (12 + Math.random() * 14) + 's';
+                container.appendChild(el);
+            }
+        })();
+
+        const btn = document.getElementById('surpriseBtn');
+        const confettiContainer = document.getElementById('confettiContainer');
+        let isCooldown = false;
+        const COOLDOWN_TIME = 5000;
+
+        function launchConfetti(count = 200) {
+            const colors = ['#d4af37', '#ffd700', '#b8860b', '#ff6b6b', '#ffb3b3', '#ffd93d', '#ff8a5c', '#ffcccc'];
+            const shapes = ['●', '■', '★', '✦', '❤️', '♦', '▲'];
+
+            for (let i = 0; i < count; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = '-5%';
+                piece.style.color = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.fontSize = (0.8 + Math.random() * 2) + 'rem';
+                piece.style.animationDuration = (2 + Math.random() * 3.5) + 's';
+                piece.style.animationDelay = (Math.random() * 2) + 's';
+                confettiContainer.appendChild(piece);
+            }
+            setTimeout(() => {
+                confettiContainer.innerHTML = '';
+            }, 7000);
+        }
+
+        btn.addEventListener('click', () => {
+            if (isCooldown) return;
+            launchConfetti(250);
+            isCooldown = true;
+            btn.disabled = true;
+            btn.textContent = '⏳ Подожди...';
+            setTimeout(() => {
+                isCooldown = false;
+                btn.disabled = false;
+                btn.textContent = '✨ Запустить салют ✨';
+            }, COOLDOWN_TIME);
+        });
+    </script>
+</body>
+</html>
